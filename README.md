@@ -3,9 +3,9 @@
 Anonymous social media platform that uses zero knowledge verifiable credentials to onboard creators to the platform. 
 
 ## Key differentiators
-- Social relationships are leveraged without giving control to third-parties
 - Privacy-preserving onboarding enables creators to join and verify their credentials without revealing their identities
 - Verifiable credentials enable viewers to trust the anonymous creator.
+- Decentralized social graph.
 
 ## Tech Stack
 - World ID to verify that this is a first time a user is signing up to post on the platform. 
