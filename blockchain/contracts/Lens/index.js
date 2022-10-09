@@ -1,0 +1,85 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+
+const APIURL = 'https://api-mumbai.lens.dev/';
+
+export const apolloClient= new ApolloClient({
+  uri: APIURL,
+  cache: new InMemoryCache(),
+});
+
+import { apolloClient } from './apollo-client';
+import { gql } from '@apollo/client'
+
+
+export const STORAGE_KEY = "LH_STORAGE_KEY"
+export const LENS_HUB_CONTRACT_ADDRESS = "0xDb46d1Dc155634FbC732f92E853b10B288AD5a1d"
+export const PERIPHERY_CONTRACT_ADDRESS = "0xeff187b4190E551FC25a7fA4dFC6cf7fDeF7194f"
+
+export const basicClient = new createApolloClient({
+  url: APIURL
+})
+
+export async function fetchProfile(id) {
+  try {
+    const ApolloClient = await createClient()
+    const returnedProfile = await apolloClient.query(getProfiles, { id }).toPromise();
+    const profileData = returnedProfile.data.profiles.items[0]
+    profileData.color = generateRandomColor()
+    const pubs = await ApolloClient.query(getPublications, { id, limit: 50 }).toPromise()
+    return {
+      profile: profileData,
+      publications: pubs.data.publications.items
+    }
+  } catch (err) {
+    console.log('error fetching profile...', err)
+  }
+}
+
+export async function createClient() {
+  const storageData = JSON.parse(localStorage.getItem(STORAGE_KEY))
+  if (storageData) {
+    try {
+      const { accessToken } = await refreshAuthToken()
+      const ApolloClient = new createUrqlClient({
+        url: APIURL,
+        fetchOptions: {
+          headers: {
+            'x-access-token': `Bearer ${accessToken}`
+          },
+        },
+      })
+      return ApolloClient
+    } catch (err) {
+      return basicClient
+    }
+  } else {
+    return basicClient
+  }
+}
+
+export {
+  recommendProfiles,
+  getProfiles,
+  getDefaultProfile,
+  getPublications,
+  searchProfiles,
+  searchPublications,
+  explorePublications,
+  doesFollow,
+  getChallenge,
+  timeline
+} from './queries'
+
+export {
+  followUser,
+  authenticate,
+  refresh,
+  createUnfollowTypedData,
+  broadcast,
+  createProfileMetadataTypedData
+} from './mutations'
