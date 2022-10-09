@@ -33,7 +33,7 @@ const Viewer = () => {
       {step === Stage.STEP1 && (
         <div>
           <h1 className="text-3xl pb-10">Finally lets connect your wallet</h1>
-          <ConnectButton />;
+          <ConnectButton />
         </div>
       )}
 

@@ -4,6 +4,7 @@ import Stack from "@mui/material/Stack";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { VerificationResponse, WorldIDWidget } from "@worldcoin/id";
 import { useEffect, useState } from "react";
+import ReactJson from "react-json-view";
 import { QRCode } from "react-qr-svg";
 import io from "socket.io-client";
 import { useAccount } from "wagmi";
@@ -20,7 +21,7 @@ enum Stage {
 }
 
 const Creator = () => {
-  const [step, setStep] = useState<Stage>(Stage.STEP4);
+  const [step, setStep] = useState<Stage>(Stage.STEP1);
   const [qrCode, setQrCode] = useState();
   const [isWsConnected, setIsWsConnected] = useState(socket.connected);
   const [proven, setProven] = useState(null);
@@ -117,14 +118,15 @@ const Creator = () => {
               fetchQrCode().then(() => setStep(Stage.STEP3));
             }}
           >
-            I'll prove it to you!
+            Can you prove it?
           </Button>
         </div>
       )}
 
       {step === Stage.STEP3 && (
         <div>
-          <h1 className="text-3xl pb-10">Prove it to me!!!!</h1>
+          <h1 className="text-3xl pb-10">Prove it!</h1>
+          <ReactJson src={qrCode!} collapsed={true} />
           <QRCode
             level="Q"
             style={{ width: 256 }}
@@ -136,7 +138,7 @@ const Creator = () => {
       {step === Stage.STEP4 && (
         <div>
           <h1 className="text-3xl pb-10">Finally lets connect your wallet</h1>
-          <ConnectButton />;
+          <ConnectButton />
         </div>
       )}
 
