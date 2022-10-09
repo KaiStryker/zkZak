@@ -9,7 +9,7 @@ const Header = () => {
           component="div"
           sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
         >
-          APPNAME
+          zkZak
         </Typography>
       </Toolbar>
     </AppBar>
