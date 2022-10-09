@@ -3,6 +3,7 @@ import "./App.css";
 import Header from "./features/header/Header";
 import Home from "./features/home/Home";
 import Creator from "./features/signup/creator/Creator";
+import Viewer from "./features/signup/viewer/Viewer";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/signup/creator" element={<Creator />} />
+          <Route path="/signup/viewer" element={<Viewer />} />
           <Route
             path="*"
             element={
