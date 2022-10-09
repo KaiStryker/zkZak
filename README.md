@@ -14,4 +14,11 @@ Anonymous social media platform that uses zero knowledge verifiable credentials 
 - WalletConnect to enable connecting any wallet.
 
 ## Installation
-- Setup yarn, hardhat,
+### System Requirements
+:bulb: Before you begin, make sure you have all the below installed:
+
+- [Node.js v16 or above](https://nodejs.org/en/download/)
+
+### Initializing all the packages
+- yarn
+- hardhat
