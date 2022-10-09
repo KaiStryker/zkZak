@@ -11,7 +11,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
+      {/* <MoralisProvider initializeOnMount={false}> */}
       <App />
+      {/* </MoralisProvider> */}
     </BrowserRouter>
   </React.StrictMode>
 );

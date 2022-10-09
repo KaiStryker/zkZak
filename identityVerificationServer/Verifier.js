@@ -1,12 +1,23 @@
 import { auth, loaders, resolver } from "@iden3/js-iden3-auth";
 import cors from "cors";
 import express from "express";
+import http from "http";
 import getRawBody from "raw-body";
+import { Server } from "socket.io";
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+  },
+});
 const port = 8080;
 
 app.use(cors());
+
+// Create a map to store the auth requests and their session IDs
+const requestMap = new Map();
 
 app.get("/api/sign-in", (req, res) => {
   console.log("get Auth Request");
@@ -18,12 +29,13 @@ app.post("/api/callback", (req, res) => {
   Callback(req, res);
 });
 
-app.listen(port, () => {
-  console.log("server running on port 8080");
+io.on("connection", (socket) => {
+  console.log("a user connected");
 });
 
-// Create a map to store the auth requests and their session IDs
-const requestMap = new Map();
+server.listen(port, () => {
+  console.log("server running on port 8080");
+});
 
 // GetQR returns auth request
 async function GetAuthRequest(req, res) {
@@ -100,13 +112,17 @@ async function Callback(req, res) {
     sLoader,
     ethStateResolver
   );
+
   let authResponse;
+
   try {
     authResponse = await verifier.fullVerify(tokenStr, authRequest);
+    io.emit("proven", { proof: true });
   } catch (error) {
     console.log(error);
     return res.status(500).send(error);
   }
+
   return res
     .status(200)
     .set("Content-Type", "application/json")
